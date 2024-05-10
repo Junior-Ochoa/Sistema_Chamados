@@ -31,7 +31,6 @@ export default function Dashboard() {
           </Link>
 
           <table>
-
             <thead>
               <tr>
                 <th scope="col">Cliente</th>
@@ -44,17 +43,30 @@ export default function Dashboard() {
 
             <tbody>
               <tr>
-                <td data-label="Cliente">Mercado ali</td>
+                <td data-label="Cliente">Pratic sistemas</td>
                 <td data-label="Assunto">Suporte</td>
-                <td data-label="Status">Em aberto</td>
+                <td data-label="Status">
+                    <span className="badge" style={{ backgroundColor: '#999'}}>
+                     Em aberto
+                    </span>
+                </td>
                 <td data-label="Cadastrado">12/05/2021</td>
                 <td data-label="#">
-                  <button className="action" style={{ backgroundColor: '#3583f6'}}>
+
+                  <button
+                    className="action"
+                    style={{ backgroundColor: "#3583f6" }}
+                  >
                     <FiSearch color="#FFF" size={17} />
                   </button>
-                  <button className="action">
-                    <FiEdit2 color="#FFF" size={17} style={{ backgroundColor: '#f6a935'}} />
+
+                  <button
+                    className="action"
+                    style={{ backgroundColor: "#f6a935" }}
+                  >
+                    <FiEdit2 color="#FFF" size={17} />
                   </button>
+
                 </td>
               </tr>
             </tbody>
