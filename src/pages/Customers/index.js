@@ -53,7 +53,7 @@ export default function Customers() {
             <label>Nome fantasia</label>
             <input
               type="text"
-              placeholder="Nome da empresa"
+              placeholder="Digite o nome da empresa"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
             />
