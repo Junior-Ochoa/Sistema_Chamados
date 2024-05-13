@@ -61,7 +61,7 @@ export default function New() {
                 onChange={handleOptionChange}
                 checked={ status === 'Progresso'}
               />
-              <span>Em Progresso</span>
+              <span>Progresso</span>
 
               <input 
                 type="radio" 
