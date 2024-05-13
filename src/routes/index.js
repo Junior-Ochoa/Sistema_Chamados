@@ -6,6 +6,7 @@ import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import Private from "./Private";
 import Customers from "../pages/Customers";
+import New from "../pages/New";
 
 function RoutesApp() {
   return (
@@ -15,6 +16,7 @@ function RoutesApp() {
       <Route path="/dashboard" element={ <Private> <Dashboard/> </Private>} />
       <Route path="/profile" element={ <Private> <Profile/> </Private>} />
       <Route path="/customers" element={ <Private> <Customers/> </Private>}/>
+      <Route path="/new" element={ <Private> <New/> </Private>}/>
     </Routes>
   );
 }
