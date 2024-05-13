@@ -1,43 +1,103 @@
 import Header from "../../components/Header";
 import Title from "../../components/Title";
-import { useState } from 'react'
+import { useState, useEffect, useContext } from "react";
 import { FiPlusCircle } from "react-icons/fi";
+
+import { AuthContext } from "../../contexts/auth";
+import { db } from "../../services/firebaseConnection";
+import { collection, getDocs, getDoc, doc } from "firebase/firestore";
+
 import "./new.css";
 
+const listRef = collection(db, "customers");
+
 export default function New() {
-    const [customers, setCustomers] = useState([])
+  const { user } = useContext(AuthContext);
 
-    const [complemento, setComplemento] = useState('')
-    const [assunto, setAssunto] = useState('Suporte')
-    const [status, setStatus] = useState('Aberto')
+  const [customers, setCustomers] = useState([]);
+  const [loadCustomers, setLoadCustomers] = useState(true);
+  const [customerSelected, setCustomerSelected] = useState(0);
 
-    function handleOptionChange(e){
-        setStatus(e.target.value)
+  const [complemento, setComplemento] = useState("");
+  const [assunto, setAssunto] = useState("Suporte");
+  const [status, setStatus] = useState("Aberto");
+
+  useEffect(() => {
+    async function loadCustomers() {
+      const querySnapshot = await getDocs(listRef)
+        .then((snapshot) => {
+          let lista = [];
+
+          snapshot.forEach((doc) => {
+            lista.push({
+              id: doc.id,
+              nomeFantasia: doc.data().nomeFantasia,
+            });
+          });
+
+          if (snapshot.docs.size === 0) {
+            console.log("NENHUMA EMPRESA ENCONTRADA");
+            setCustomers([{ id: "1", nomeFantasia: "PRATIC" }]);
+            setLoadCustomers(false);
+            return;
+          }
+
+          setCustomers(lista);
+          setLoadCustomers(false);
+        })
+        .catch((error) => {
+          console.log("ERRO AO BUSCAR OS CLIENTES", error);
+          setLoadCustomers(false);
+          setCustomers([{ id: "1", nomeFantasia: "PRATIC" }]);
+        });
     }
+
+    loadCustomers();
+  }, []);
+
+  function handleOptionChange(e) {
+    setStatus(e.target.value);
+  }
+
+  function handleChangeSelect(e) {
+    setAssunto(e.target.value);
+  }
+
+  function handleChangeCustomer(e) {
+    setCustomerSelected(e.target.value);
+  }
 
   return (
     <div>
       <Header />
 
       <div className="content">
+
         <Title nome="Novo chamado">
           <FiPlusCircle size={25} />
         </Title>
 
         <div className="container">
           <form className="form-profile">
+
             <label>Clientes</label>
-            <select>
-              <option key={1} value={1}>
-                Mercadinho teste
-              </option>
-              <option key={2} value={2}>
-                Ed Pneus
-              </option>
-            </select>
+            
+            {loadCustomers ? (
+              <input type="text" disabled={true} value="Carregando..." />
+            ) : (
+              <select value={customerSelected} onChange={handleChangeCustomer}>
+                {customers.map((item, index) => {
+                  return (
+                    <option key={index} value={index}>
+                      {item.nomeFantasia}
+                    </option>
+                  );
+                })}
+              </select>
+            )}
 
             <label>Assunto</label>
-            <select>
+            <select value={assunto} onChange={handleChangeSelect}>
               <option value="Suporte">Suporte</option>
               <option value="Visita tecnica">Visita tecnica</option>
               <option value="Financeiro">Financeiro</option>
@@ -45,44 +105,43 @@ export default function New() {
 
             <label>Status</label>
             <div className="status">
-              <input 
-                type="radio" 
-                name="radio" 
-                value="Aberto" 
+              <input
+                type="radio"
+                name="radio"
+                value="Aberto"
                 onChange={handleOptionChange}
-                checked={ status === 'Aberto'}
+                checked={status === "Aberto"}
               />
               <span>Em aberto</span>
 
-              <input 
-                type="radio" 
-                name="radio" 
-                value="Progresso" 
+              <input
+                type="radio"
+                name="radio"
+                value="Progresso"
                 onChange={handleOptionChange}
-                checked={ status === 'Progresso'}
+                checked={status === "Progresso"}
               />
               <span>Progresso</span>
 
-              <input 
-                type="radio" 
-                name="radio" 
+              <input
+                type="radio"
+                name="radio"
                 value="Atendido"
                 onChange={handleOptionChange}
-                checked={ status === 'Atendido'} 
+                checked={status === "Atendido"}
               />
               <span>Atendido</span>
             </div>
 
             <label>Complemento</label>
-            <textarea 
-                type="text" 
-                placeholder="Descreva seu problema (opcional)." 
-                value={complemento}
-                onChange={ (e) => setComplemento(e.target.value)}
+            <textarea
+              type="text"
+              placeholder="Descreva seu problema (opcional)."
+              value={complemento}
+              onChange={(e) => setComplemento(e.target.value)}
             />
 
             <button type="submit">Registrar</button>
-
           </form>
         </div>
       </div>
