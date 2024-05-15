@@ -27,7 +27,7 @@ export default function Dashboard() {
         <>
           <Link to="/new" className="new">
             <FiPlus color="#FFF" size={25} />
-            Abrir chamado
+            Novo chamado
           </Link>
 
           <table>

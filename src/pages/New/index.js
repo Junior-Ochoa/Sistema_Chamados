@@ -1,11 +1,12 @@
 import Header from "../../components/Header";
 import Title from "../../components/Title";
+
 import { useState, useEffect, useContext } from "react";
 import { FiPlusCircle } from "react-icons/fi";
-
 import { AuthContext } from "../../contexts/auth";
 import { db } from "../../services/firebaseConnection";
-import { collection, getDocs, getDoc, doc } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc, addDoc } from "firebase/firestore";
+import { toast } from 'react-toastify'
 
 import "./new.css";
 
@@ -55,6 +56,7 @@ export default function New() {
     loadCustomers();
   }, []);
 
+
   function handleOptionChange(e) {
     setStatus(e.target.value);
   }
@@ -67,18 +69,45 @@ export default function New() {
     setCustomerSelected(e.target.value);
   }
 
+  async function handleRegister(e){
+    e.preventDefault()
+    
+    // Registrar chamado
+    await addDoc(collection(db, "chamados"), {
+      created: new Date(),
+      cliente: customers[customerSelected].nomeFantasia,
+      clienteId: customers[customerSelected].id,
+      assunto: assunto,
+      complemento: complemento,
+      status: status,
+      userId: user.uid
+    })
+    .then(() => {
+      toast.success("Chamado registrado!")
+      setComplemento('')
+      setCustomerSelected(0)
+      setAssunto('')
+      setStatus('')
+    })
+    .catch((error) => {
+      console.log(error)
+      toast.error("Erro ao registrar chamado")
+    })
+  }
+
+
   return (
     <div>
       <Header />
 
       <div className="content">
 
-        <Title nome="Novo chamado">
+        <Title nome="Abrindo novo chamado">
           <FiPlusCircle size={25} />
         </Title>
 
         <div className="container">
-          <form className="form-profile">
+          <form className="form-profile" onSubmit={handleRegister}>
 
             <label>Clientes</label>
             
