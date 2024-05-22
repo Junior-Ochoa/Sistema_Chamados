@@ -43,7 +43,7 @@ export default function Customers() {
       <Header />
 
       <div className="content">
-        <Title nome="Clientes">
+        <Title nome="Adicionar um novo cliente">
           <FiUser size={25} />
         </Title>
 
@@ -53,7 +53,7 @@ export default function Customers() {
             <label>Nome fantasia</label>
             <input
               type="text"
-              placeholder="Digite o nome da empresa"
+              placeholder="Digite o nome"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
             />
