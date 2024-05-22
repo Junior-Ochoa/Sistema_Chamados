@@ -165,7 +165,7 @@ export default function New() {
             <label>Complemento</label>
             <textarea
               type="text"
-              placeholder="Descreva seu problema (opcional)."
+              placeholder="Descreva em detalhes o seu problema."
               value={complemento}
               onChange={(e) => setComplemento(e.target.value)}
             />
