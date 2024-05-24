@@ -151,7 +151,7 @@ export default function Dashboard() {
                       <span
                         className="badge"
                         style={{ 
-                          backgroundColor: item.status === 'Aberto' ? '#5cb85c' : '#999' && item.status === 'Atendido' ? '#ff0000' : '#999' 
+                          backgroundColor: item.status === 'Aberto' ? '#5cb85c' : '#999' && item.status === 'Finalizado' ? '#ff0000' : '#999' 
                         }}
                       >
                         {item.status}

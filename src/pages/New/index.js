@@ -173,7 +173,7 @@ export default function New() {
                 onChange={handleOptionChange}
                 checked={status === "Aberto"}
               />
-              <span>Em aberto</span>
+              <span>Aberto</span>
 
               <input
                 type="radio"
@@ -187,11 +187,11 @@ export default function New() {
               <input
                 type="radio"
                 name="radio"
-                value="Atendido"
+                value="Finalizado"
                 onChange={handleOptionChange}
-                checked={status === "Atendido"}
+                checked={status === "Finalizado"}
               />
-              <span>Atendido</span>
+              <span>Finalizado</span>
             </div>
 
             <label>Complemento</label>
