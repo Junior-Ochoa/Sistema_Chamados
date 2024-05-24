@@ -17,7 +17,8 @@
 }
 
 .login-area{
-    background-color: #181c2e;
+    /* background-color: #181c2e; */
+    background-color: #EAEAEC;
     width: 100%;
     display: flex;
     justify-content: center;
