@@ -5,9 +5,9 @@ import { useState, useEffect, useContext } from "react";
 import { FiPlusCircle } from "react-icons/fi";
 import { AuthContext } from "../../contexts/auth";
 import { db } from "../../services/firebaseConnection";
-import { collection, getDocs, getDoc, doc, addDoc } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc, addDoc, updateDoc } from "firebase/firestore";
 import { toast } from 'react-toastify'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import "./new.css";
 
@@ -16,6 +16,7 @@ const listRef = collection(db, "customers");
 export default function New() {
   const { user } = useContext(AuthContext);
   const { id } = useParams()
+  const navigate = useNavigate()
 
   const [customers, setCustomers] = useState([]);
   const [loadCustomers, setLoadCustomers] = useState(true);
@@ -100,7 +101,27 @@ export default function New() {
     e.preventDefault()
 
     if(idCustomer){
-      alert("EDITANDO CHAMADO")
+      // atualizando chamado
+      const docRef = doc(db, "chamados", id)
+      await updateDoc(docRef, {
+        cliente: customers[customerSelected].nomeFantasia,
+        clienteId: customers[customerSelected].id,
+        assunto: assunto,
+        complemento: complemento,
+        status: status,
+        userId: user.uid
+      })
+      .then(() => {
+        toast.info("Chamado atualizado com sucesso!")
+        setCustomerSelected(0)
+        setComplemento('')
+        navigate("/dashboard")
+      })
+      .catch((error) => {
+        toast.error("Erro ao atualizar chamado")
+        console.log(error)
+      })
+
       return;
     }
     
@@ -120,6 +141,7 @@ export default function New() {
       setCustomerSelected(0)
       setAssunto('')
       setStatus('')
+      navigate("/dashboard")
     })
     .catch((error) => {
       console.log(error)
@@ -134,7 +156,7 @@ export default function New() {
 
       <div className="content">
 
-        <Title nome="Abrindo novo chamado">
+        <Title nome={id ? "Editando chamado" : "Abrindo novo chamado"}>
           <FiPlusCircle size={25} />
         </Title>
 
