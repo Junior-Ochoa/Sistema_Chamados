@@ -95,6 +95,11 @@ table td .badge {
   color: #FFF;
 }
 
+.text-btn{
+  margin: 1.5em 0;
+  padding: 0.5em 1em;
+}
+
 @media screen and (max-width: 600px) {
   table {
     border: 0;

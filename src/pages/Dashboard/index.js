@@ -137,14 +137,14 @@ export default function Dashboard() {
                     <th scope="col">Assunto</th>
                     <th scope="col">Status</th>
                     <th scope="col">Cadastrado</th>
-                    <th scope="col">#</th>
+                    <th scope="col"> </th>
                   </tr>
                 </thead>
 
                 <tbody>
                   {chamados.map((item, index) => {
                     return(
-                  <tr key={index}>
+                    <tr key={index}>
                     <td data-label="Cliente">{item.cliente}</td>
                     <td data-label="Assunto">{item.assunto}</td>
                     <td data-label="Status">
@@ -166,12 +166,13 @@ export default function Dashboard() {
                         <FiSearch color="#FFF" size={17} />
                       </button>
 
-                      <button
+                      <Link
+                        to={`/new/${item.id}`}
                         className="action"
                         style={{ backgroundColor: "#f6a935" }}
                       >
                         <FiEdit2 color="#FFF" size={17} />
-                      </button>
+                      </Link>
                     </td>
                    </tr>
                     )
@@ -179,7 +180,7 @@ export default function Dashboard() {
                 </tbody>
               </table>
 
-              {loadingMore && <h3>Buscando chamados...</h3>}
+              {loadingMore && <h3 className="text-btn">Buscando chamados...</h3>}
               {!loadingMore && !isEmpty && <button className="btn-more" onClick={handleMore}>Buscar</button>}
             </>
           )}
