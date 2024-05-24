@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react'
-import login from '../../assets/login.png'
+// import login from '../../assets/login.png'
+import you from '../../assets/you.png'
 import { Link } from 'react-router-dom'
 
 import { AuthContext } from '../../contexts/auth'
@@ -24,7 +25,7 @@ export default function SignUp() {
     <div className="container-center">
       <div className="login">
         <div className="login-area">
-          <img src={login} alt="Logo do sistema de chamados" />
+          <img src={you} alt="Logo do sistema de chamados" />
         </div>
 
         <form onSubmit={handleSubmit}>
