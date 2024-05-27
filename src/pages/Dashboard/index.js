@@ -13,6 +13,7 @@ import {
   query,
 } from "firebase/firestore";
 
+import Modal from "../../components/Modal";
 import Header from "../../components/Header";
 import Title from "../../components/Title";
 
@@ -151,7 +152,7 @@ export default function Dashboard() {
                       <span
                         className="badge"
                         style={{ 
-                          backgroundColor: item.status === 'Aberto' ? '#5cb85c' : '#999' && item.status === 'Fechado' ? '#ff0000' : '#999' 
+                          backgroundColor: item.status === 'Em Aberto' ? '#5cb85c' : '#999' && item.status === 'Fechado' ? '#ff0000' : '#999' 
                         }}
                       >
                         {item.status}
@@ -186,6 +187,9 @@ export default function Dashboard() {
           )}
         </>
       </div>
+      
+      <Modal/>
+
     </div>
   );
 }
