@@ -31,6 +31,9 @@ export default function Dashboard() {
   const [lastDocs, setLastDocs] = useState()
   const [loadingMore, setLoadingMore] = useState(false)
 
+  const [showPostModal, setShowPostModal] = useState(false)
+  const [detail, setDetail] = useState()
+
   useEffect(() => {
     async function loadChamados() {
       const q = query(listRef, orderBy("created", "desc"), limit(5));
@@ -87,6 +90,12 @@ export default function Dashboard() {
 
   }
 
+  function toggleModal(item){
+    setShowPostModal(!showPostModal)
+    setDetail(item)
+  }
+
+  
   if(loading){
     return(
       <div>
@@ -152,7 +161,7 @@ export default function Dashboard() {
                       <span
                         className="badge"
                         style={{ 
-                          backgroundColor: item.status === 'Em Aberto' ? '#5cb85c' : '#999' && item.status === 'Fechado' ? '#ff0000' : '#999' 
+                          backgroundColor: item.status === 'Em Aberto' ? '#5cb85c' : '#999' && item.status === 'Fechado' ? '#CD853F' : '#999' 
                         }}
                       >
                         {item.status}
@@ -163,6 +172,7 @@ export default function Dashboard() {
                       <button
                         className="action"
                         style={{ backgroundColor: "#3583f6" }}
+                        onClick={ () => toggleModal(item) }
                       >
                         <FiSearch color="#FFF" size={17} />
                       </button>
@@ -188,7 +198,12 @@ export default function Dashboard() {
         </>
       </div>
       
-      <Modal/>
+      {showPostModal && (
+        <Modal
+          conteudo={detail}
+          close={ () => setShowPostModal(!showPostModal)}
+        />
+      )}
 
     </div>
   );
