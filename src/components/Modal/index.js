@@ -31,7 +31,7 @@ export default function Modal({ conteudo, close }) {
           <div className="row">
             <span>
               Status: 
-              <i className="status-badge" style={{ color:"#FFF", backgroundColor: conteudo.status === 'Em Aberto' ? '#5cb85c' : '#999' && conteudo.status === 'Fechado' ? '#CD853F' : '#999' }}>
+              <i className="status-badge" style={{ color:"#FFF", backgroundColor: conteudo.status === 'Em Aberto' ? '#5cb85c' : '#999' && conteudo.status === 'Fechado' ? '#FF4500' : '#999' }}>
                 {conteudo.status}
               </i>
             </span>
