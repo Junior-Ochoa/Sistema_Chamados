@@ -102,7 +102,7 @@ export default function Dashboard() {
         <Header/>
 
         <div className="content">
-          <Title nome="Chamados">
+          <Title nome="Atendimentos">
             <FiMessageSquare size={25} />
           </Title>
 
@@ -120,7 +120,7 @@ export default function Dashboard() {
       <Header />
 
       <div className="content">
-        <Title nome="Chamados">
+        <Title nome="Atendimentos">
           <FiMessageSquare size={25} />
         </Title>
 
@@ -161,7 +161,7 @@ export default function Dashboard() {
                       <span
                         className="badge"
                         style={{ 
-                          backgroundColor: item.status === 'Em Aberto' ? '#5cb85c' : '#999' && item.status === 'Fechado' ? '#FF4500' : '#999' 
+                          backgroundColor: item.status === 'Aberto' ? '#5cb85c' : '#999' && item.status === 'Fechado' ? '#FF4500' : '#999' 
                         }}
                       >
                         {item.status}

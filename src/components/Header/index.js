@@ -21,7 +21,7 @@ export default function Header() {
 
       <Link to='/dashboard'>
         <FiHome color="#FFF" size={24}/>
-        Chamados
+        Atendimentos
       </Link>
       
       <Link to='/customers'>
