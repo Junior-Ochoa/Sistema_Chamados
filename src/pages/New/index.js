@@ -126,27 +126,32 @@ export default function New() {
     }
     
     // Registrar chamado
-    await addDoc(collection(db, "chamados"), {
-      created: new Date(),
-      cliente: customers[customerSelected].nomeFantasia,
-      clienteId: customers[customerSelected].id,
-      assunto: assunto,
-      complemento: complemento,
-      status: status,
-      userId: user.uid
-    })
-    .then(() => {
-      toast.success("Chamado registrado!")
-      setComplemento('')
-      setCustomerSelected(0)
-      setAssunto('')
-      setStatus('')
-      navigate("/dashboard")
-    })
-    .catch((error) => {
-      console.log(error)
-      toast.error("Erro ao registrar chamado")
-    })
+    if(customers !== '' && assunto !== '' && status !== ''){
+      await addDoc(collection(db, "chamados"), {
+        created: new Date(),
+        cliente: customers[customerSelected].nomeFantasia,
+        clienteId: customers[customerSelected].id,
+        assunto: assunto,
+        complemento: complemento,
+        status: status,
+        userId: user.uid
+      })
+      .then(() => {
+          toast.success("Chamado registrado!")
+          setComplemento('')
+          setCustomerSelected(0)
+          setAssunto('')
+          setStatus('')
+          navigate("/dashboard")
+      })
+        .catch((error) => {
+          console.log(error)
+          toast.error("Erro ao registrar chamado")
+      })
+    }else {
+      toast.error("Preencha todos os campos")
+    }
+    
   }
 
 
@@ -219,7 +224,7 @@ export default function New() {
             <label>Complemento</label>
             <textarea
               type="text"
-              placeholder="Descreva em detalhes o seu problema."
+              placeholder="Descreva aqui o seu problema. (opcional)"
               value={complemento}
               onChange={(e) => setComplemento(e.target.value)}
             />
