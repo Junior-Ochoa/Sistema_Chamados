@@ -2,39 +2,50 @@ import { useState } from "react";
 import Header from "../../components/Header";
 import Title from "../../components/Title";
 
-import { db } from '../../services/firebaseConnection'
-import { addDoc, collection } from 'firebase/firestore'
+import { db } from "../../services/firebaseConnection";
+import { addDoc, collection } from "firebase/firestore";
 
 import { FiUser } from "react-icons/fi";
-import { toast } from 'react-toastify'
+import { toast } from "react-toastify";
+import InputMask from 'react-input-mask';
+
+import './customers.css'
 
 export default function Customers() {
   const [nome, setNome] = useState("");
-  const [cnpj, setCnpj] = useState("");
+  // const [cnpj, setCnpj] = useState("");
+  const [tipoPessoa, setTipoPessoa] = useState("");
+  const [documento, setDocumento] = useState("");
   const [endereco, setEndereco] = useState("");
 
- async function handleRegister(e){
-    e.preventDefault()
+  async function handleRegister(e) {
+    e.preventDefault();
 
-    if(nome !== '' && cnpj !== '' && endereco !== ''){
+    if (
+      nome !== "" &&
+      documento !== "" &&
+      tipoPessoa !== "" &&
+      endereco !== ""
+    ) {
       await addDoc(collection(db, "customers"), {
         nomeFantasia: nome,
-        cnpj: cnpj,
-        endereco: endereco
+        tipoPessoa: tipoPessoa,
+        documento: documento,
+        endereco: endereco,
       })
-      .then(() => {
-        setNome('')
-        setCnpj('')
-        setEndereco('')
-        toast.success("Empresa cadastrada")
-      })
-      .catch((error) => {
-        console.log(error)
-        toast.error("Erro ao fazer o cadastro")
-      })
-       
-    }else{
-        toast.error("Preencha todos os campos")
+        .then(() => {
+          setNome("");
+          setDocumento("");
+          setTipoPessoa("");
+          setEndereco("");
+          toast.success("Cliente cadastrado");
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error("Erro ao fazer o cadastro");
+        });
+    } else {
+      toast.error("Preencha todos os campos");
     }
   }
 
@@ -49,7 +60,6 @@ export default function Customers() {
 
         <div className="container">
           <form className="form-profile" onSubmit={handleRegister}>
-            
             <label>Nome</label>
             <input
               type="text"
@@ -58,13 +68,48 @@ export default function Customers() {
               onChange={(e) => setNome(e.target.value)}
             />
 
-            <label>CNPJ</label>
-            <input
+            <label>Tipo de pessoa</label>
+            <select
               type="text"
-              placeholder="Digite o CNPJ"
-              value={cnpj}
-              onChange={(e) => setCnpj(e.target.value)}
-            />
+              placeholder="Selecione..."
+              value={tipoPessoa}
+              onChange={(e) => {
+                setTipoPessoa(e.target.value);
+                setDocumento("");
+              }}
+            >
+              <option value="">Selecione...</option>
+              <option value="Fisica">Física</option>
+              <option value="Juridica">Jurídica</option>
+            </select>
+
+            {tipoPessoa === "Juridica" && (
+              <div>
+                <label>CNPJ</label>
+                <InputMask
+                  mask="99.999.999/9999-99"
+                  type="text"
+                  placeholder="Digite o CNPJ"
+                  value={documento}
+                  onChange={(e) => setDocumento(e.target.value)}
+                  className="tipo"
+                />
+              </div>
+            )}
+
+            {tipoPessoa === "Fisica" && (
+              <div>
+                <label>R.G</label>
+                <InputMask
+                  mask="99.999.999-9"
+                  type="text"
+                  placeholder="Digite o R.G"
+                  value={documento}
+                  onChange={(e) => setDocumento(e.target.value)}
+                  className="tipo"
+                />
+              </div>
+            )}
 
             <label>Endereço</label>
             <input
@@ -74,13 +119,9 @@ export default function Customers() {
               onChange={(e) => setEndereco(e.target.value)}
             />
 
-            <button type="submit">
-                Salvar
-            </button>
-
+            <button type="submit">Salvar</button>
           </form>
         </div>
-
       </div>
     </div>
   );
